@@ -13,6 +13,7 @@
             --card-bg: #fff;
             --card-text: #666;
             --subtitle-color: #ccc;
+            --accent-color: #4A648C;
         }
 
         body.dark-mode {
@@ -49,12 +50,37 @@
             font-size: 16px;
             color: var(--subtitle-color);
         }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .controls button:hover {
+            transform: scale(1.05);
+            background-color: var(--accent-color);
+            color: white;
+        }
+
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
             padding: 40px 20px;
+            min-height: 400px;
         }
         .card {
             background-color: var(--card-bg);
@@ -63,6 +89,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: transform 0.3s ease, background-color 0.3s;
+            position: relative;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -84,6 +111,7 @@
         }
         .info {
             padding: 20px;
+            padding-bottom: 60px; /* Space for share button */
         }
         .info h3 {
             margin: 0 0 10px 0;
@@ -95,6 +123,24 @@
             color: var(--card-text);
             line-height: 1.5;
         }
+        
+        .share-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .share-btn:hover {
+            opacity: 0.9;
+        }
+
         footer {
             margin-top: 20px;
             padding: 20px;
@@ -114,6 +160,7 @@
             font-weight: bold;
             transition: 0.3s;
         }
+
         .contact-section {
             padding: 40px 20px;
             background-color: var(--card-bg);
@@ -163,52 +210,15 @@
         <h1>오늘 뭐 입지? 👕👖</h1>
         <p class="subtitle">실패 확률 0%! 누구나 소화하기 쉬운 베스트 색상 조합</p>
         <button id="mode-toggle">다크 모드</button>
+        
+        <div class="controls">
+            <button id="btn-random">🎲 랜덤 추천 받기</button>
+            <button id="btn-all">전체 보기</button>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="card">
-            <div class="color-display">
-                <div class="color-top" style="background-color: #ffffff; color: #333;">화이트 (상의)</div>
-                <div class="color-bottom" style="background-color: #4A648C; color: #fff; text-shadow: none;">데님 블루 (하의)</div>
-            </div>
-            <div class="info">
-                <h3>화이트 + 데님</h3>
-                <p>가장 기본적이고 청량한 조합입니다. 캐주얼하고 깔끔한 느낌을 주고 싶을 때 추천합니다.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="color-display">
-                <div class="color-top" style="background-color: #1A2E44; color: #fff; text-shadow: none;">네이비 (상의)</div>
-                <div class="color-bottom" style="background-color: #E6D2B5; color: #333;">베이지 (하의)</div>
-            </div>
-            <div class="info">
-                <h3>네이비 + 베이지</h3>
-                <p>단정하고 지적인 느낌을 줍니다. 출근룩이나 데이트룩으로 모두 손색없는 조합입니다.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="color-display">
-                <div class="color-top" style="background-color: #000000; color: #fff; text-shadow: none;">블랙 (상의)</div>
-                <div class="color-bottom" style="background-color: #808080; color: #fff; text-shadow: none;">그레이 (하의)</div>
-            </div>
-            <div class="info">
-                <h3>블랙 + 그레이</h3>
-                <p>시크하고 세련된 무채색 조합입니다. 차분하고 모던한 스타일링을 원할 때 제격입니다.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="color-display">
-                <div class="color-top" style="background-color: #FFD1DC; color: #333;">파스텔 핑크 (상의)</div>
-                <div class="color-bottom" style="background-color: #ffffff; color: #333;">화이트 (하의)</div>
-            </div>
-            <div class="info">
-                <h3>파스텔 핑크 + 화이트</h3>
-                <p>화사하고 사랑스러운 느낌을 주는 조합입니다. 봄과 여름에 특히 잘 어울립니다.</p>
-            </div>
-        </div>
+    <div id="card-container" class="container">
+        <!-- Cards will be rendered here by JavaScript -->
     </div>
 
     <div class="contact-section">
@@ -232,18 +242,122 @@
     </footer>
 
     <script>
+        // Color Combination Data
+        const combinations = [
+            {
+                title: "화이트 + 데님",
+                desc: "가장 기본적이고 청량한 조합입니다. 캐주얼하고 깔끔한 느낌을 주고 싶을 때 추천합니다.",
+                top: { name: "화이트 (상의)", bg: "#ffffff", text: "#333" },
+                bottom: { name: "데님 블루 (하의)", bg: "#4A648C", text: "#fff" }
+            },
+            {
+                title: "네이비 + 베이지",
+                desc: "단정하고 지적인 느낌을 줍니다. 출근룩이나 데이트룩으로 모두 손색없는 조합입니다.",
+                top: { name: "네이비 (상의)", bg: "#1A2E44", text: "#fff" },
+                bottom: { name: "베이지 (하의)", bg: "#E6D2B5", text: "#333" }
+            },
+            {
+                title: "블랙 + 그레이",
+                desc: "시크하고 세련된 무채색 조합입니다. 차분하고 모던한 스타일링을 원할 때 제격입니다.",
+                top: { name: "블랙 (상의)", bg: "#000000", text: "#fff" },
+                bottom: { name: "그레이 (하의)", bg: "#808080", text: "#fff" }
+            },
+            {
+                title: "파스텔 핑크 + 화이트",
+                desc: "화사하고 사랑스러운 느낌을 주는 조합입니다. 봄과 여름에 특히 잘 어울립니다.",
+                top: { name: "파스텔 핑크 (상의)", bg: "#FFD1DC", text: "#333" },
+                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
+            },
+            {
+                title: "카키 + 블랙",
+                desc: "무게감 있고 분위기 있는 어반 룩입니다. 가을이나 야외 활동 시 추천하는 조합입니다.",
+                top: { name: "카키 (상의)", bg: "#4B5320", text: "#fff" },
+                bottom: { name: "블랙 (하의)", bg: "#000000", text: "#fff" }
+            },
+            {
+                title: "올 화이트",
+                desc: "깔끔하고 세련된 미니멀리즘의 정석입니다. 신발이나 벨트로 포인트를 주기 좋습니다.",
+                top: { name: "화이트 (상의)", bg: "#ffffff", text: "#333" },
+                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
+            },
+            {
+                title: "브라운 + 크림",
+                desc: "부드럽고 따뜻한 인상을 줍니다. 가을 분위기를 내기에 아주 좋은 조합입니다.",
+                top: { name: "브라운 (상의)", bg: "#654321", text: "#fff" },
+                bottom: { name: "크림 (하의)", bg: "#FFFDD0", text: "#333" }
+            },
+            {
+                title: "스카이 블루 + 화이트",
+                desc: "청량감이 넘치는 시원한 조합입니다. 여름 바캉스 룩으로 완벽합니다.",
+                top: { name: "스카이 블루 (상의)", bg: "#87CEEB", text: "#333" },
+                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
+            }
+        ];
+
+        const container = document.getElementById('card-container');
+        const btnRandom = document.getElementById('btn-random');
+        const btnAll = document.getElementById('btn-all');
         const toggleBtn = document.getElementById('mode-toggle');
         const body = document.body;
 
+        // Render Cards Function
+        function renderCards(data) {
+            container.innerHTML = '';
+            data.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="color-display">
+                        <div class="color-top" style="background-color: ${item.top.bg}; color: ${item.top.text}; text-shadow: ${item.top.text === '#fff' ? 'none' : '0px 0px 5px rgba(255,255,255,0.7)'}">${item.top.name}</div>
+                        <div class="color-bottom" style="background-color: ${item.bottom.bg}; color: ${item.bottom.text}; text-shadow: ${item.bottom.text === '#fff' ? 'none' : '0px 0px 5px rgba(255,255,255,0.7)'}">${item.bottom.name}</div>
+                    </div>
+                    <div class="info">
+                        <h3>${item.title}</h3>
+                        <p>${item.desc}</p>
+                    </div>
+                    <button class="share-btn" onclick="shareCombination('${item.title}')">공유하기</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Share Function
+        async function shareCombination(title) {
+            const shareData = {
+                title: '오늘 뭐 입지?',
+                text: `추천 색상 조합: ${title}`,
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+                    alert('클립보드에 복사되었습니다!');
+                }
+            } catch (err) {
+                console.error('공유 실패:', err);
+            }
+        }
+
+        // Event Listeners
+        btnRandom.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * combinations.length);
+            renderCards([combinations[randomIndex]]);
+        });
+
+        btnAll.addEventListener('click', () => {
+            renderCards(combinations);
+        });
+
         toggleBtn.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                toggleBtn.textContent = '라이트 모드';
-            } else {
-                toggleBtn.textContent = '다크 모드';
-            }
+            toggleBtn.textContent = body.classList.contains('dark-mode') ? '라이트 모드' : '다크 모드';
         });
+
+        // Initial Load
+        renderCards(combinations);
     </script>
 </body>
 </html>
