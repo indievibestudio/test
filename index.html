@@ -5,18 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>데일리 옷 색상 조합 추천</title>
     <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333;
+            --header-bg: #333;
+            --header-text: #fff;
+            --card-bg: #fff;
+            --card-text: #666;
+            --subtitle-color: #ccc;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #f4f4f9;
+            --header-bg: #000;
+            --header-text: #ddd;
+            --card-bg: #2a2a2a;
+            --card-text: #bbb;
+            --subtitle-color: #888;
+        }
+
         body {
             font-family: 'Malgun Gothic', sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
             text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
         header {
-            background-color: #333;
-            color: #fff;
+            background-color: var(--header-bg);
+            color: var(--header-text);
             padding: 30px 20px;
+            position: relative;
         }
         h1 {
             margin: 0;
@@ -25,7 +47,7 @@
         p.subtitle {
             margin-top: 10px;
             font-size: 16px;
-            color: #ccc;
+            color: var(--subtitle-color);
         }
         .container {
             display: flex;
@@ -35,12 +57,12 @@
             padding: 40px 20px;
         }
         .card {
-            background-color: #fff;
+            background-color: var(--card-bg);
             width: 250px;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -70,7 +92,7 @@
         .info p {
             margin: 0;
             font-size: 14px;
-            color: #666;
+            color: var(--card-text);
             line-height: 1.5;
         }
         footer {
@@ -79,6 +101,19 @@
             color: #888;
             font-size: 12px;
         }
+        #mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 20px;
+            border: none;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            transition: 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +121,7 @@
     <header>
         <h1>오늘 뭐 입지? 👕👖</h1>
         <p class="subtitle">실패 확률 0%! 누구나 소화하기 쉬운 베스트 색상 조합</p>
+        <button id="mode-toggle">다크 모드</button>
     </header>
 
     <div class="container">
@@ -138,5 +174,19 @@
         <p>&copy; 2026 Color Match Guide. All rights reserved.</p>
     </footer>
 
+    <script>
+        const toggleBtn = document.getElementById('mode-toggle');
+        const body = document.body;
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                toggleBtn.textContent = '라이트 모드';
+            } else {
+                toggleBtn.textContent = '다크 모드';
+            }
+        });
+    </script>
 </body>
 </html>
