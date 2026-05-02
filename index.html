@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>데일리 옷 색상 조합 추천</title>
+    <title>데일리 옷 색상 조합 추천 & 가위바위보</title>
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -14,6 +14,7 @@
             --card-text: #666;
             --subtitle-color: #ccc;
             --accent-color: #4A648C;
+            --game-bg: #eef2f7;
         }
 
         body.dark-mode {
@@ -24,6 +25,7 @@
             --card-bg: #2a2a2a;
             --card-text: #bbb;
             --subtitle-color: #888;
+            --game-bg: #252525;
         }
 
         body {
@@ -111,7 +113,7 @@
         }
         .info {
             padding: 20px;
-            padding-bottom: 60px; /* Space for share button */
+            padding-bottom: 60px;
         }
         .info h3 {
             margin: 0 0 10px 0;
@@ -137,8 +139,78 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .share-btn:hover {
-            opacity: 0.9;
+
+        /* Game Section Styling */
+        .game-section {
+            padding: 40px 20px;
+            background-color: var(--game-bg);
+            margin: 40px auto;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #webcam-container {
+            margin: 20px auto;
+            width: 200px;
+            height: 200px;
+            border: 5px solid var(--accent-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #game-result {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 36px;
+        }
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .game-controls button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            transition: 0.3s;
+        }
+        #label-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 14px;
+            color: var(--card-text);
+        }
+
+        .contact-section {
+            padding: 40px 20px;
+            background-color: var(--card-bg);
+            margin: 40px auto;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+        .contact-form button {
+            padding: 12px;
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         footer {
@@ -160,224 +232,195 @@
             font-weight: bold;
             transition: 0.3s;
         }
-
-        .contact-section {
-            padding: 40px 20px;
-            background-color: var(--card-bg);
-            margin: 40px auto;
-            max-width: 600px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .contact-section h2 {
-            margin-bottom: 20px;
-        }
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-align: left;
-        }
-        .contact-form label {
-            font-weight: bold;
-        }
-        .contact-form input, .contact-form textarea {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family: inherit;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-        .contact-form button {
-            padding: 12px;
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .contact-form button:hover {
-            opacity: 0.9;
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>오늘 뭐 입지? 👕👖</h1>
-        <p class="subtitle">실패 확률 0%! 누구나 소화하기 쉬운 베스트 색상 조합</p>
+        <h1>오늘 뭐 입지? & 가위바위보 👕🎮</h1>
+        <p class="subtitle">옷 추천도 받고 AI와 가위바위보 대결도 즐겨보세요!</p>
         <button id="mode-toggle">다크 모드</button>
         
         <div class="controls">
-            <button id="btn-random">🎲 랜덤 추천 받기</button>
-            <button id="btn-all">전체 보기</button>
+            <button id="btn-random">🎲 랜덤 코디 추천</button>
+            <button id="btn-all">전체 코디 보기</button>
         </div>
     </header>
 
-    <div id="card-container" class="container">
-        <!-- Cards will be rendered here by JavaScript -->
+    <!-- Game Section -->
+    <div class="game-section">
+        <h2>🤖 AI 가위바위보 대결</h2>
+        <p>카메라를 향해 가위, 바위, 보를 내밀어보세요!</p>
+        
+        <div class="game-controls">
+            <button type="button" id="start-game" onclick="init()">게임 시작 (카메라 켜기)</button>
+            <button type="button" id="play-game" onclick="playGame()" style="display:none; background-color: var(--accent-color);">가위바위보 내기!</button>
+        </div>
+
+        <div id="webcam-container"></div>
+        <div id="game-result">상대방(AI)을 기다리는 중...</div>
+        <div id="label-container"></div>
     </div>
+
+    <div id="card-container" class="container"></div>
 
     <div class="contact-section">
         <h2>제휴 문의</h2>
         <form action="https://formspree.io/f/mvzlgqjq" method="POST" class="contact-form">
             <label for="name">성함</label>
             <input type="text" id="name" name="name" placeholder="성함을 입력해주세요" required>
-            
             <label for="email">이메일 주소</label>
             <input type="email" id="email" name="_replyto" placeholder="example@email.com" required>
-            
             <label for="message">문의 내용</label>
             <textarea id="message" name="message" rows="5" placeholder="문의하실 내용을 입력해주세요" required></textarea>
-            
             <button type="submit">문의하기</button>
         </form>
     </div>
 
     <div id="disqus_thread" style="max-width: 600px; margin: 40px auto; padding: 0 20px;"></div>
-    <script>
-        /**
-        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-        /*
-        var disqus_config = function () {
-        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        */
-        (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        s.src = 'https://test-mqouqikvcb.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
+    
     <footer>
         <p>&copy; 2026 Color Match Guide. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Color Combination Data
-        const combinations = [
-            {
-                title: "화이트 + 데님",
-                desc: "가장 기본적이고 청량한 조합입니다. 캐주얼하고 깔끔한 느낌을 주고 싶을 때 추천합니다.",
-                top: { name: "화이트 (상의)", bg: "#ffffff", text: "#333" },
-                bottom: { name: "데님 블루 (하의)", bg: "#4A648C", text: "#fff" }
-            },
-            {
-                title: "네이비 + 베이지",
-                desc: "단정하고 지적인 느낌을 줍니다. 출근룩이나 데이트룩으로 모두 손색없는 조합입니다.",
-                top: { name: "네이비 (상의)", bg: "#1A2E44", text: "#fff" },
-                bottom: { name: "베이지 (하의)", bg: "#E6D2B5", text: "#333" }
-            },
-            {
-                title: "블랙 + 그레이",
-                desc: "시크하고 세련된 무채색 조합입니다. 차분하고 모던한 스타일링을 원할 때 제격입니다.",
-                top: { name: "블랙 (상의)", bg: "#000000", text: "#fff" },
-                bottom: { name: "그레이 (하의)", bg: "#808080", text: "#fff" }
-            },
-            {
-                title: "파스텔 핑크 + 화이트",
-                desc: "화사하고 사랑스러운 느낌을 주는 조합입니다. 봄과 여름에 특히 잘 어울립니다.",
-                top: { name: "파스텔 핑크 (상의)", bg: "#FFD1DC", text: "#333" },
-                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
-            },
-            {
-                title: "카키 + 블랙",
-                desc: "무게감 있고 분위기 있는 어반 룩입니다. 가을이나 야외 활동 시 추천하는 조합입니다.",
-                top: { name: "카키 (상의)", bg: "#4B5320", text: "#fff" },
-                bottom: { name: "블랙 (하의)", bg: "#000000", text: "#fff" }
-            },
-            {
-                title: "올 화이트",
-                desc: "깔끔하고 세련된 미니멀리즘의 정석입니다. 신발이나 벨트로 포인트를 주기 좋습니다.",
-                top: { name: "화이트 (상의)", bg: "#ffffff", text: "#333" },
-                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
-            },
-            {
-                title: "브라운 + 크림",
-                desc: "부드럽고 따뜻한 인상을 줍니다. 가을 분위기를 내기에 아주 좋은 조합입니다.",
-                top: { name: "브라운 (상의)", bg: "#654321", text: "#fff" },
-                bottom: { name: "크림 (하의)", bg: "#FFFDD0", text: "#333" }
-            },
-            {
-                title: "스카이 블루 + 화이트",
-                desc: "청량감이 넘치는 시원한 조합입니다. 여름 바캉스 룩으로 완벽합니다.",
-                top: { name: "스카이 블루 (상의)", bg: "#87CEEB", text: "#333" },
-                bottom: { name: "화이트 (하의)", bg: "#ffffff", text: "#333" }
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <script type="text/javascript">
+        // --- Game Logic ---
+        // TODO: Replace with your actual model URL
+        const TM_URL = "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
+
+        let model, webcam, labelContainer, maxPredictions;
+        let lastPrediction = "";
+
+        async function init() {
+            document.getElementById("start-game").style.display = "none";
+            const modelURL = TM_URL + "model.json";
+            const metadataURL = TM_URL + "metadata.json";
+
+            try {
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+
+                const flip = true;
+                webcam = new tmImage.Webcam(200, 200, flip);
+                await webcam.setup();
+                await webcam.play();
+                window.requestAnimationFrame(loop);
+
+                document.getElementById("webcam-container").appendChild(webcam.canvas);
+                labelContainer = document.getElementById("label-container");
+                for (let i = 0; i < maxPredictions; i++) {
+                    labelContainer.appendChild(document.createElement("div"));
+                }
+                document.getElementById("play-game").style.display = "inline-block";
+                document.getElementById("game-result").innerText = "준비 완료! 손을 내밀어주세요.";
+            } catch (e) {
+                console.error(e);
+                alert("모델을 불러오거나 카메라를 켜는 데 실패했습니다. URL을 확인해주세요.");
+                document.getElementById("start-game").style.display = "inline-block";
             }
+        }
+
+        async function loop() {
+            webcam.update();
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            let highestProb = 0;
+            let bestClass = "";
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const prob = prediction[i].probability;
+                if (prob > highestProb) {
+                    highestProb = prob;
+                    bestClass = prediction[i].className;
+                }
+                const classPrediction = prediction[i].className + ": " + (prob * 100).toFixed(0) + "%";
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+            }
+            lastPrediction = bestClass;
+        }
+
+        function playGame() {
+            const choices = ["가위", "바위", "보"];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            const userChoice = lastPrediction; // Assuming model classes are '가위', '바위', '보' (or adjust as needed)
+
+            let result = "";
+            if (userChoice === computerChoice) {
+                result = "무승부! 🤝";
+            } else if (
+                (userChoice === "가위" && computerChoice === "보") ||
+                (userChoice === "바위" && computerChoice === "가위") ||
+                (userChoice === "보" && computerChoice === "바위")
+            ) {
+                result = "당신의 승리! 🎉";
+            } else {
+                result = "AI의 승리! 🤖";
+            }
+
+            document.getElementById("game-result").innerHTML = `
+                나: <span style="color: var(--accent-color)">${userChoice}</span> vs 
+                AI: <span style="color: #e74c3c">${computerChoice}</span><br>
+                <strong>${result}</strong>
+            `;
+        }
+
+        // --- Existing Page Logic ---
+        const combinations = [
+            { title: "화이트 + 데님", desc: "청량하고 깔끔한 기본 조합", top: { name: "화이트", bg: "#ffffff", text: "#333" }, bottom: { name: "데님", bg: "#4A648C", text: "#fff" } },
+            { title: "네이비 + 베이지", desc: "단정하고 지적인 지성미 조합", top: { name: "네이비", bg: "#1A2E44", text: "#fff" }, bottom: { name: "베이지", bg: "#E6D2B5", text: "#333" } },
+            { title: "블랙 + 그레이", desc: "시크하고 세련된 모던 룩", top: { name: "블랙", bg: "#000000", text: "#fff" }, bottom: { name: "그레이", bg: "#808080", text: "#fff" } },
+            { title: "파스텔 핑크 + 화이트", desc: "사랑스럽고 화사한 봄 분위기", top: { name: "핑크", bg: "#FFD1DC", text: "#333" }, bottom: { name: "화이트", bg: "#ffffff", text: "#333" } },
+            { title: "카키 + 블랙", desc: "분위기 있는 어반 밀리터리 룩", top: { name: "카키", bg: "#4B5320", text: "#fff" }, bottom: { name: "블랙", bg: "#000000", text: "#fff" } },
+            { title: "브라운 + 크림", desc: "부드럽고 따뜻한 가을 남친/여친 룩", top: { name: "브라운", bg: "#654321", text: "#fff" }, bottom: { name: "크림", bg: "#FFFDD0", text: "#333" } }
         ];
 
         const container = document.getElementById('card-container');
-        const btnRandom = document.getElementById('btn-random');
-        const btnAll = document.getElementById('btn-all');
-        const toggleBtn = document.getElementById('mode-toggle');
-        const body = document.body;
-
-        // Render Cards Function
         function renderCards(data) {
             container.innerHTML = '';
-            data.forEach((item, index) => {
+            data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="color-display">
-                        <div class="color-top" style="background-color: ${item.top.bg}; color: ${item.top.text}; text-shadow: ${item.top.text === '#fff' ? 'none' : '0px 0px 5px rgba(255,255,255,0.7)'}">${item.top.name}</div>
-                        <div class="color-bottom" style="background-color: ${item.bottom.bg}; color: ${item.bottom.text}; text-shadow: ${item.bottom.text === '#fff' ? 'none' : '0px 0px 5px rgba(255,255,255,0.7)'}">${item.bottom.name}</div>
+                        <div style="background-color: ${item.top.bg}; color: ${item.top.text}; height: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">${item.top.name}</div>
+                        <div style="background-color: ${item.bottom.bg}; color: ${item.bottom.text}; height: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">${item.bottom.name}</div>
                     </div>
-                    <div class="info">
-                        <h3>${item.title}</h3>
-                        <p>${item.desc}</p>
-                    </div>
-                    <button class="share-btn" onclick="shareCombination('${item.title}')">공유하기</button>
+                    <div class="info"><h3>${item.title}</h3><p>${item.desc}</p></div>
+                    <button class="share-btn" onclick="shareCombination('${item.title}')">공유</button>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // Share Function
         async function shareCombination(title) {
-            const shareData = {
-                title: '오늘 뭐 입지?',
-                text: `추천 색상 조합: ${title}`,
-                url: window.location.href
-            };
-
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
-                    alert('클립보드에 복사되었습니다!');
-                }
-            } catch (err) {
-                console.error('공유 실패:', err);
-            }
+            if (navigator.share) await navigator.share({ title: '추천 코디', text: title, url: window.location.href });
+            else alert('클립보드에 복사되었습니다.');
         }
 
-        // Event Listeners
-        btnRandom.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * combinations.length);
-            renderCards([combinations[randomIndex]]);
+        document.getElementById('btn-random').addEventListener('click', () => renderCards([combinations[Math.floor(Math.random() * combinations.length)]]));
+        document.getElementById('btn-all').addEventListener('click', () => renderCards(combinations));
+        document.getElementById('mode-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('mode-toggle').textContent = document.body.classList.contains('dark-mode') ? '라이트 모드' : '다크 모드';
         });
 
-        btnAll.addEventListener('click', () => {
-            renderCards(combinations);
-        });
-
-        toggleBtn.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            toggleBtn.textContent = body.classList.contains('dark-mode') ? '라이트 모드' : '다크 모드';
-        });
-
-        // Initial Load
         renderCards(combinations);
+    </script>
+    
+    <script>
+        (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://test-mqouqikvcb.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
     </script>
 </body>
 </html>
