@@ -15,6 +15,7 @@
             --subtitle-color: #ccc;
             --accent-color: #4A648C;
             --game-bg: #eef2f7;
+            --danger-color: #e74c3c;
         }
 
         body.dark-mode {
@@ -43,15 +44,8 @@
             padding: 30px 20px;
             position: relative;
         }
-        h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        p.subtitle {
-            margin-top: 10px;
-            font-size: 16px;
-            color: var(--subtitle-color);
-        }
+        h1 { margin: 0; font-size: 28px; }
+        p.subtitle { margin-top: 10px; font-size: 16px; color: var(--subtitle-color); }
         
         .controls {
             margin-top: 20px;
@@ -76,70 +70,6 @@
             color: white;
         }
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px 20px;
-            min-height: 400px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            width: 250px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, background-color 0.3s;
-            position: relative;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .color-display {
-            display: flex;
-            flex-direction: column;
-            height: 160px;
-        }
-        .color-top, .color-bottom {
-            height: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-weight: bold;
-            font-size: 14px;
-            text-shadow: 0px 0px 5px rgba(255,255,255,0.7);
-        }
-        .info {
-            padding: 20px;
-            padding-bottom: 60px;
-        }
-        .info h3 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-        }
-        .info p {
-            margin: 0;
-            font-size: 14px;
-            color: var(--card-text);
-            line-height: 1.5;
-        }
-        
-        .share-btn {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            padding: 8px 12px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
         /* Game Section Styling */
         .game-section {
             padding: 40px 20px;
@@ -159,7 +89,7 @@
             background-color: #000;
         }
         #game-result {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin: 20px 0;
             min-height: 36px;
@@ -181,12 +111,80 @@
             color: var(--header-text);
             transition: 0.3s;
         }
-        #label-container {
+        #score-board {
+            font-size: 18px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .reset-btn {
+            font-size: 12px;
+            color: var(--danger-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+
+        /* Card Styling with Images */
+        .container {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-            font-size: 14px;
-            color: var(--card-text);
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            width: 280px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .color-strip {
+            display: flex;
+            height: 40px;
+        }
+        .color-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .info {
+            padding: 20px;
+            text-align: left;
+            padding-bottom: 60px;
+        }
+        .info h3 { margin: 0 0 10px 0; font-size: 18px; }
+        .info p { margin: 0; font-size: 14px; color: var(--card-text); line-height: 1.4; }
+        
+        .share-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
         }
 
         .contact-section {
@@ -195,14 +193,8 @@
             margin: 40px auto;
             max-width: 600px;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-align: left;
-        }
+        .contact-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
         .contact-form button {
             padding: 12px;
             background-color: var(--header-bg);
@@ -213,24 +205,11 @@
             font-weight: bold;
         }
 
-        footer {
-            margin-top: 20px;
-            padding: 20px;
-            color: #888;
-            font-size: 12px;
-        }
+        footer { padding: 30px; color: #888; font-size: 12px; }
         #mode-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 20px;
-            border: none;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-weight: bold;
-            transition: 0.3s;
+            position: absolute; top: 20px; right: 20px;
+            padding: 10px 15px; cursor: pointer; border-radius: 20px; border: none;
+            background-color: var(--bg-color); color: var(--text-color); font-weight: bold;
         }
     </style>
 </head>
@@ -240,26 +219,25 @@
         <h1>오늘 뭐 입지? & 가위바위보 👕🎮</h1>
         <p class="subtitle">옷 추천도 받고 AI와 가위바위보 대결도 즐겨보세요!</p>
         <button id="mode-toggle">다크 모드</button>
-        
         <div class="controls">
             <button id="btn-random">🎲 랜덤 코디 추천</button>
             <button id="btn-all">전체 코디 보기</button>
         </div>
     </header>
 
-    <!-- Game Section -->
     <div class="game-section">
         <h2>🤖 AI 가위바위보 대결</h2>
-        <p>카메라를 향해 가위, 바위, 보를 내밀어보세요!</p>
+        <div id="score-board">승: <span id="wins">0</span> | 무: <span id="ties">0</span> | 패: <span id="losses">0</span></div>
+        <br><button class="reset-btn" onclick="resetScore()">전적 초기화</button>
         
         <div class="game-controls">
-            <button type="button" id="start-game" onclick="init()">게임 시작 (카메라 켜기)</button>
-            <button type="button" id="play-game" onclick="playGame()" style="display:none; background-color: var(--accent-color);">가위바위보 내기!</button>
+            <button type="button" id="start-game" onclick="init()">게임 시작 (카메라)</button>
+            <button type="button" id="play-game" onclick="playGame()" style="display:none; background-color: var(--accent-color);">승부 확인하기!</button>
         </div>
 
         <div id="webcam-container"></div>
-        <div id="game-result">상대방(AI)을 기다리는 중...</div>
-        <div id="label-container"></div>
+        <div id="game-result">AI를 이겨보세요!</div>
+        <div id="label-container" style="font-size: 12px; color: #888;"></div>
     </div>
 
     <div id="card-container" class="container"></div>
@@ -279,120 +257,128 @@
 
     <div id="disqus_thread" style="max-width: 600px; margin: 40px auto; padding: 0 20px;"></div>
     
-    <footer>
-        <p>&copy; 2026 Color Match Guide. All rights reserved.</p>
-    </footer>
+    <footer><p>&copy; 2026 Color Match Guide. All rights reserved.</p></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     
     <script type="text/javascript">
-        // --- Game Logic ---
+        // --- Game & Score Logic ---
         const TM_URL = "https://teachablemachine.withgoogle.com/models/R-UIs7hiT/";
-
         let model, webcam, labelContainer, maxPredictions;
         let lastPrediction = "";
+        let score = JSON.parse(localStorage.getItem('rps-score')) || { wins: 0, ties: 0, losses: 0 };
+
+        function updateScoreUI() {
+            document.getElementById('wins').innerText = score.wins;
+            document.getElementById('ties').innerText = score.ties;
+            document.getElementById('losses').innerText = score.losses;
+            localStorage.setItem('rps-score', JSON.stringify(score));
+        }
+
+        function resetScore() {
+            score = { wins: 0, ties: 0, losses: 0 };
+            updateScoreUI();
+        }
 
         async function init() {
             document.getElementById("start-game").style.display = "none";
-            const modelURL = TM_URL + "model.json";
-            const metadataURL = TM_URL + "metadata.json";
-
-            try {
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
-
-                const flip = true;
-                webcam = new tmImage.Webcam(200, 200, flip);
-                await webcam.setup();
-                await webcam.play();
-                window.requestAnimationFrame(loop);
-
-                document.getElementById("webcam-container").appendChild(webcam.canvas);
-                labelContainer = document.getElementById("label-container");
-                for (let i = 0; i < maxPredictions; i++) {
-                    labelContainer.appendChild(document.createElement("div"));
-                }
-                document.getElementById("play-game").style.display = "inline-block";
-                document.getElementById("game-result").innerText = "준비 완료! 손을 내밀어주세요.";
-            } catch (e) {
-                console.error(e);
-                alert("모델을 불러오거나 카메라를 켜는 데 실패했습니다. URL을 확인해주세요.");
-                document.getElementById("start-game").style.display = "inline-block";
-            }
-        }
-
-        async function loop() {
-            webcam.update();
-            await predict();
+            model = await tmImage.load(TM_URL + "model.json", TM_URL + "metadata.json");
+            maxPredictions = model.getTotalClasses();
+            webcam = new tmImage.Webcam(200, 200, true);
+            await webcam.setup(); await webcam.play();
             window.requestAnimationFrame(loop);
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            document.getElementById("play-game").style.display = "inline-block";
+            updateScoreUI();
         }
+
+        async function loop() { webcam.update(); await predict(); window.requestAnimationFrame(loop); }
 
         async function predict() {
             const prediction = await model.predict(webcam.canvas);
-            let highestProb = 0;
-            let bestClass = "";
-
+            let highestProb = 0; let bestClass = "";
             for (let i = 0; i < maxPredictions; i++) {
-                const prob = prediction[i].probability;
-                if (prob > highestProb) {
-                    highestProb = prob;
+                if (prediction[i].probability > highestProb) {
+                    highestProb = prediction[i].probability;
                     bestClass = prediction[i].className;
                 }
-                const classPrediction = prediction[i].className + ": " + (prob * 100).toFixed(0) + "%";
-                labelContainer.childNodes[i].innerHTML = classPrediction;
             }
             lastPrediction = bestClass;
+            document.getElementById('label-container').innerText = `인식 결과: ${bestClass} (${(highestProb * 100).toFixed(0)}%)`;
         }
 
         function playGame() {
             const choices = ["가위", "바위", "보"];
             const computerChoice = choices[Math.floor(Math.random() * 3)];
-            const userChoice = lastPrediction; // Assuming model classes are '가위', '바위', '보' (or adjust as needed)
+            const userChoice = lastPrediction;
+            let resultMessage = "";
 
-            let result = "";
             if (userChoice === computerChoice) {
-                result = "무승부! 🤝";
-            } else if (
-                (userChoice === "가위" && computerChoice === "보") ||
-                (userChoice === "바위" && computerChoice === "가위") ||
-                (userChoice === "보" && computerChoice === "바위")
-            ) {
-                result = "당신의 승리! 🎉";
+                resultMessage = "무승부! 🤝"; score.ties++;
+            } else if ((userChoice === "가위" && computerChoice === "보") || (userChoice === "바위" && computerChoice === "가위") || (userChoice === "보" && computerChoice === "바위")) {
+                resultMessage = "당신의 승리! 🎉"; score.wins++;
             } else {
-                result = "AI의 승리! 🤖";
+                resultMessage = "AI의 승리! 🤖"; score.losses++;
             }
 
-            document.getElementById("game-result").innerHTML = `
-                나: <span style="color: var(--accent-color)">${userChoice}</span> vs 
-                AI: <span style="color: #e74c3c">${computerChoice}</span><br>
-                <strong>${result}</strong>
-            `;
+            document.getElementById("game-result").innerHTML = `나: ${userChoice} vs AI: ${computerChoice}<br><strong>${resultMessage}</strong>`;
+            updateScoreUI();
         }
 
-        // --- Existing Page Logic ---
+        // --- Outfit Data & Rendering ---
         const combinations = [
-            { title: "화이트 + 데님", desc: "청량하고 깔끔한 기본 조합", top: { name: "화이트", bg: "#ffffff", text: "#333" }, bottom: { name: "데님", bg: "#4A648C", text: "#fff" } },
-            { title: "네이비 + 베이지", desc: "단정하고 지적인 지성미 조합", top: { name: "네이비", bg: "#1A2E44", text: "#fff" }, bottom: { name: "베이지", bg: "#E6D2B5", text: "#333" } },
-            { title: "블랙 + 그레이", desc: "시크하고 세련된 모던 룩", top: { name: "블랙", bg: "#000000", text: "#fff" }, bottom: { name: "그레이", bg: "#808080", text: "#fff" } },
-            { title: "파스텔 핑크 + 화이트", desc: "사랑스럽고 화사한 봄 분위기", top: { name: "핑크", bg: "#FFD1DC", text: "#333" }, bottom: { name: "화이트", bg: "#ffffff", text: "#333" } },
-            { title: "카키 + 블랙", desc: "분위기 있는 어반 밀리터리 룩", top: { name: "카키", bg: "#4B5320", text: "#fff" }, bottom: { name: "블랙", bg: "#000000", text: "#fff" } },
-            { title: "브라운 + 크림", desc: "부드럽고 따뜻한 가을 남친/여친 룩", top: { name: "브라운", bg: "#654321", text: "#fff" }, bottom: { name: "크림", bg: "#FFFDD0", text: "#333" } }
+            { 
+                title: "화이트 + 데님", desc: "청량함의 정석, 남녀노소 사랑받는 깔끔한 데일리룩입니다.", 
+                top: { name: "화이트", bg: "#ffffff", text: "#333" }, 
+                bottom: { name: "데님", bg: "#4A648C", text: "#fff" },
+                img: "https://images.unsplash.com/photo-1582533081190-0f746802f47a?auto=format&fit=crop&w=600&q=80"
+            },
+            { 
+                title: "네이비 + 베이지", desc: "지적이고 단정한 무드를 주는 클래식한 조합입니다.", 
+                top: { name: "네이비", bg: "#1A2E44", text: "#fff" }, 
+                bottom: { name: "베이지", bg: "#E6D2B5", text: "#333" },
+                img: "https://images.unsplash.com/photo-1479064566235-26a718a482e3?auto=format&fit=crop&w=600&q=80"
+            },
+            { 
+                title: "블랙 + 그레이", desc: "시크하고 모던한 도시적인 감각을 표현하기에 좋습니다.", 
+                top: { name: "블랙", bg: "#000000", text: "#fff" }, 
+                bottom: { name: "그레이", bg: "#808080", text: "#fff" },
+                img: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=600&q=80"
+            },
+            { 
+                title: "브라운 + 크림", desc: "포근하고 따뜻한 느낌을 주는 가을 감성 룩입니다.", 
+                top: { name: "브라운", bg: "#654321", text: "#fff" }, 
+                bottom: { name: "크림", bg: "#FFFDD0", text: "#333" },
+                img: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80"
+            },
+            { 
+                title: "카키 + 블랙", desc: "무게감 있는 무드의 어반 테크웨어/밀리터리 룩 컨셉입니다.", 
+                top: { name: "카키", bg: "#4B5320", text: "#fff" }, 
+                bottom: { name: "블랙", bg: "#000000", text: "#fff" },
+                img: "https://images.unsplash.com/photo-1511424325612-b5ca299f02d8?auto=format&fit=crop&w=600&q=80"
+            },
+            { 
+                title: "파스텔 핑크 + 화이트", desc: "화사하고 산뜻한 분위기를 연출할 수 있는 포인트 룩입니다.", 
+                top: { name: "핑크", bg: "#FFD1DC", text: "#333" }, 
+                bottom: { name: "화이트", bg: "#ffffff", text: "#333" },
+                img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80"
+            }
         ];
 
         const container = document.getElementById('card-container');
         function renderCards(data) {
             container.innerHTML = '';
             data.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
+                const card = document.createElement('div'); card.className = 'card';
                 card.innerHTML = `
-                    <div class="color-display">
-                        <div style="background-color: ${item.top.bg}; color: ${item.top.text}; height: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">${item.top.name}</div>
-                        <div style="background-color: ${item.bottom.bg}; color: ${item.bottom.text}; height: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">${item.bottom.name}</div>
+                    <img src="${item.img}" alt="${item.title}" class="card-img">
+                    <div class="color-strip">
+                        <div class="color-item" style="background-color: ${item.top.bg}; color: ${item.top.text};">${item.top.name}</div>
+                        <div class="color-item" style="background-color: ${item.bottom.bg}; color: ${item.bottom.text};">${item.bottom.name}</div>
                     </div>
                     <div class="info"><h3>${item.title}</h3><p>${item.desc}</p></div>
-                    <button class="share-btn" onclick="shareCombination('${item.title}')">공유</button>
+                    <button class="share-btn" onclick="shareCombination('${item.title}')">공유하기</button>
                 `;
                 container.appendChild(card);
             });
@@ -400,7 +386,7 @@
 
         async function shareCombination(title) {
             if (navigator.share) await navigator.share({ title: '추천 코디', text: title, url: window.location.href });
-            else alert('클립보드에 복사되었습니다.');
+            else { await navigator.clipboard.writeText(window.location.href); alert('링크가 복사되었습니다!'); }
         }
 
         document.getElementById('btn-random').addEventListener('click', () => renderCards([combinations[Math.floor(Math.random() * combinations.length)]]));
@@ -411,8 +397,8 @@
         });
 
         renderCards(combinations);
+        updateScoreUI();
     </script>
-    
     <script>
         (function() {
         var d = document, s = d.createElement('script');
